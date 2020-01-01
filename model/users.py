@@ -15,13 +15,8 @@ class UsersModel:
 
     def get_all(self):
         users = self.collection.find({})
-        array = []
 
-        for user in users:
-            user['_id'] = str(user['_id'])
-            array.append(user)
-
-        return array
+        return list(users)
 
     def create(self, data):
         result = self.collection.insert_one(data.to_dict())
@@ -31,9 +26,8 @@ class UsersModel:
     def delete(self, user_id):
         result = self.get(user_id)
 
-        self.collection.remove(
-            {
-                '_id': ObjectId(user_id)
+        self.collection.remove({
+            '_id': ObjectId(user_id)
             }
         )
 
@@ -43,10 +37,9 @@ class UsersModel:
         self.collection.remove({})
 
     def update(self, data, user_id):
-        self.collection.replace_one(
-            {
-                '_id': ObjectId(user_id)
-            },
+        self.collection.replace_one({
+            '_id': ObjectId(user_id)
+        },
             data
         )
 
